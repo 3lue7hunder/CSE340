@@ -1,144 +1,202 @@
-/* Reset and base styles */
-* {
+/******* Change Box Model ***************/
+*,
+*:before,
+*:after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
-
+/*** GENERAL /****/
 body {
-  font-family: Arial, sans-serif;
-  background: url('/images/site/checkerboard.jpg');
-  background-size: 50px 50px;
-  color: #333;
+  padding: 1% 2%;
 }
-
-/* Wrapper container */
-.wrapper {
-  background-color: white;
-  padding: 1rem 2rem;
-  margin: 2rem auto;
-  max-width: 960px;
-  border: 3px solid #00d4ff;
+#sitePage{
+  background-color: #fff;
 }
-
-/* Header */
-h1 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 2rem;
-}
-
-/* Navigation */
-nav ul {
+/*** HEADER STYLES ***/
+#top-header{
   display: flex;
-  list-style: none;
-  background-color: #111;
-  padding: 0;
-  margin-bottom: 2rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3%;
 }
-
-nav li {
-  flex: 1;
-}
-
-nav a {
-  display: block;
-  padding: 1rem;
-  color: white;
-  text-align: center;
+#top-header .siteName a {
+  font-size: 30px;
   text-decoration: none;
-  background-color: #222;
+  color: #000;
+  font-weight: 700;
+  font-family: "Arial";
 }
 
-nav a:hover {
-  background-color: #444;
+#top-header #tools a {
+  font-size: 20px;
+  text-decoration: none;
+  color: #000;
+  font-weight: 400;
+  font-family: "Arial";
 }
 
-/* Hero Section */
-.hero {
-  text-align: center;
-  margin-bottom: 2rem;
+#wrapper nav{
+  background: #001F3F;
 }
 
-.hero h2 {
-  font-size: 1.75rem;
-  margin-bottom: 1rem;
+#wrapper nav ul{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 0px;
 }
 
-.hero ul {
-  list-style: disc;
-  margin: 0 auto 1rem;
-  padding-left: 1.5rem;
-  text-align: left;
-  display: inline-block;
+#wrapper nav ul li {
+  color: #fff;
+  padding: 10px 0;
+  font-size: 15px;
+  font-family: "Arial";
 }
 
-.hero img {
-  margin-top: 1rem;
-  max-width: 100%;
-  height: auto;
+/*** hero shot /****/
+.hero-shot h1{
+  font-size: 30px;
+  color: #000;
+  font-weight: 700;
+  font-family: "Arial";
+}
+.hero-shot .hero-container{
+  display: flex;
+  align-items: center;
+}
+.hero-shot .hero-container .img-container img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+.hero-shot .hero-container .hero-box{
+  width: 20%;
+  position: relative;
+  z-index: 2;
+  left: 10%;
+  background-color: rgba(255, 255, 255, 0.8); 
+}
+.hero-shot .hero-container .hero-box h3{
+  font-size: 23px;
+  color: #00c3ff;
+  font-weight: 700;
+  font-family: "Arial";
+  margin: 0;
+}
+.hero-shot .hero-container .hero-box p{
+  font-size: 18px;
+  color: #00c3ff;
+  font-weight: 400;
+  font-family: "Arial";
+  margin: 5px 0;
 }
 
-/* CTA Button (Own Today) */
-.cta-button {
-  display: inline-block;
-  background: url('/images/site/own_today.png') no-repeat center;
-  background-size: contain;
+.hero-shot .hero-container .hero-box .hero-btn{
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 160px;
-  height: 45px;
-  text-indent: -9999px;
-  border: none;
-  cursor: pointer;
-  margin-top: 0.5rem;
+  height: 50px;
+  background: #00c3ff;
+  color: #000;
+  font-size: 15px;
+  font-family: "Arial";
+  text-decoration: none;
+  font-weight: 700;
+  margin-top: 20px;
 }
 
-/* Feature Sections (Upgrades + Reviews) */
-.features {
+#specs-sec{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column-reverse;
+}
+#specs-sec h3 {
+  font-size: 23px;
+  color: #000;
+  font-weight: 700;
+  font-family: "Arial";
+  margin: 0;
+}
+
+#specs-sec .upgrades{
   display: flex;
   flex-wrap: wrap;
-  gap: 2rem;
-  margin-top: 2rem;
+  justify-content: space-around;
+  align-items: center;
+  margin: 10px 0px;
+}
+#specs-sec .upgrades h3 {
+  width: 100%;
+}
+#specs-sec .upgrades .img-container{
+  width: 45%;
+  padding: 10px;
+  margin: 5px;
+  text-align: center;
+  background-color: #00c3ff;
+  height: 120px;
 }
 
-.upgrades, .reviews {
-  flex: 1;
-}
-
-/* Upgrades Section */
-.upgrades h2 {
-  margin-bottom: 1rem;
-}
-
-.upgrades .upgrade-items {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
+#specs-sec .upgrades .img-container a{
+  display: block;
+  font-size: 18px;
   text-align: center;
 }
 
-.upgrades img {
-  width: 60px;
-  height: auto;
-  margin-bottom: 0.5rem;
+#specs-sec .reviews {
+  margin: 10px 0px;
+  margin-top: 20%;
 }
 
-.upgrades a {
-  display: block;
-  color: #007acc;
-  text-decoration: none;
-  font-weight: bold;
+#specs-sec .reviews ul li {
+  font-size: 18px;
+  padding-bottom: 10px;
 }
 
-/* Reviews Section */
-.reviews h2 {
-  margin-bottom: 1rem;
+
+@media (min-width: 768px){
+  body {
+    background-image: url("/images/site/checkerboard.jpg");
+  }
+  #sitePage{
+    max-width: 80%;
+    margin: 0 auto;
+    padding: 2%;
+    border-radius: 15px;
+    border: 5px solid #00c3ff;
+  }
+  #sitePage{
+    max-width: 100%;
+  }
+  #specs-sec .reviews {
+    margin-top: 0%;
+  }
+  #specs-sec .upgrades .img-container{
+    width: 45%;
+  }
 }
 
-.reviews ul {
-  list-style: none;
+@media (min-width: 1200px){
+  #sitePage{
+    max-width: 80%;
+  }
+  #specs-sec .upgrades .img-container{
+    width: 45%;
+  }
 }
-
-.reviews li {
-  margin-bottom: 0.5rem;
-  font-style: italic;
+@media (min-width: 1200px){
+  #specs-sec{
+    flex-direction: row;
+  }
+  #specs-sec .upgrades{
+    width: 60%;
+    padding: 10px;
+  }
+  #specs-sec .reviews{
+    width: 40%;
+    padding: 10px;
+  }
 }
