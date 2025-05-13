@@ -1,29 +1,48 @@
-/******* Change Box Model ***************/
+/******* RESET & BOX MODEL ***************/
 *,
 *:before,
 *:after {
   box-sizing: border-box;
 }
-/*** GENERAL /****/
+
+/******* GENERAL STYLES ***************/
 body {
   padding: 1% 2%;
+  font-family: "Arial", sans-serif;
 }
-#sitePage{
+
+#sitePage {
   background-color: #fff;
+  border-radius: 15px;
+  border: 5px solid #00c3ff;
+  padding: 2%;
+  max-width: 100%;
+  margin: 0 auto;
 }
-/*** HEADER STYLES ***/
-#top-header{
+
+@media (min-width: 768px) {
+  body {
+    background-image: url("/images/site/checkerboard.jpg");
+  }
+
+  #sitePage {
+    max-width: 80%;
+  }
+}
+
+/******* HEADER STYLES ***************/
+#top-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 3%;
 }
+
 #top-header .siteName a {
   font-size: 30px;
   text-decoration: none;
   color: #000;
   font-weight: 700;
-  font-family: "Arial";
 }
 
 #top-header #tools a {
@@ -31,172 +50,196 @@ body {
   text-decoration: none;
   color: #000;
   font-weight: 400;
-  font-family: "Arial";
 }
 
-#wrapper nav{
+/******* NAVIGATION ***************/
+#wrapper nav {
   background: #001F3F;
 }
 
-#wrapper nav ul{
+#wrapper nav ul {
   display: flex;
   justify-content: space-around;
   align-items: center;
   list-style: none;
   padding: 0;
-  margin: 0px;
+  margin: 0;
 }
 
 #wrapper nav ul li {
+  padding: 10px 20px;
+  font-size: 16px;
   color: #fff;
-  padding: 10px 0;
-  font-size: 15px;
-  font-family: "Arial";
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-/*** hero shot /****/
-.hero-shot h1{
-  font-size: 30px;
-  color: #000;
-  font-weight: 700;
-  font-family: "Arial";
+#wrapper nav ul li:hover {
+  background-color: #0074D9;
 }
-.hero-shot .hero-container{
+
+/******* HERO SECTION ***************/
+.hero-shot h1 {
+  font-size: 30px;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.hero-shot .hero-container {
+  position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
 }
-.hero-shot .hero-container .img-container img {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-}
-.hero-shot .hero-container .hero-box{
-  width: 20%;
-  position: relative;
-  z-index: 2;
+
+.hero-shot .hero-container .hero-box {
+  position: absolute;
   left: 10%;
-  background-color: rgba(255, 255, 255, 0.8); 
+  top: 25%;
+  z-index: 2;
+  width: 200px;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 15px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
 }
-.hero-shot .hero-container .hero-box h3{
+
+.hero-shot .hero-container .hero-box h3 {
   font-size: 23px;
-  color: #00c3ff;
   font-weight: 700;
-  font-family: "Arial";
-  margin: 0;
-}
-.hero-shot .hero-container .hero-box p{
-  font-size: 18px;
   color: #00c3ff;
+  margin: 0 0 5px 0;
+}
+
+.hero-shot .hero-container .hero-box p {
+  font-size: 18px;
   font-weight: 400;
-  font-family: "Arial";
+  color: #00c3ff;
   margin: 5px 0;
 }
 
-.hero-shot .hero-container .hero-box .hero-btn{
+.hero-shot .hero-container .hero-box .hero-btn {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 160px;
   height: 50px;
-  background: #00c3ff;
+  background-color: #00c3ff;
   color: #000;
   font-size: 15px;
-  font-family: "Arial";
-  text-decoration: none;
   font-weight: 700;
+  text-decoration: none;
   margin-top: 20px;
+  border-radius: 4px;
 }
 
-#specs-sec{
+.hero-shot .hero-container .img-container {
+  max-width: 600px;
+  z-index: 1;
+}
+
+.hero-shot .hero-container .img-container img {
+  width: 100%;
+  max-width: 600px;
+  display: block;
+}
+
+/******* UPGRADES & REVIEWS SECTION ***************/
+#specs-sec {
   display: flex;
+  flex-direction: column-reverse;
   align-items: center;
   justify-content: space-around;
-  flex-direction: column-reverse;
-}
-#specs-sec h3 {
-  font-size: 23px;
-  color: #000;
-  font-weight: 700;
-  font-family: "Arial";
-  margin: 0;
+  margin-top: 50px;
 }
 
-#specs-sec .upgrades{
+#specs-sec h3 {
+  font-size: 23px;
+  font-weight: 700;
+  color: #000;
+  margin: 0 0 10px 0;
+}
+
+/*** UPGRADES ***/
+#specs-sec .upgrades {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
-  margin: 10px 0px;
-}
-#specs-sec .upgrades h3 {
+  margin: 10px 0;
   width: 100%;
 }
-#specs-sec .upgrades .img-container{
+
+#specs-sec .upgrades .img-container {
   width: 45%;
-  padding: 10px;
-  margin: 5px;
-  text-align: center;
   background-color: #00c3ff;
-  height: 120px;
+  padding: 10px;
+  margin: 10px;
+  text-align: center;
+  border-radius: 5px;
+  height: auto;
 }
 
-#specs-sec .upgrades .img-container a{
+#specs-sec .upgrades .img-container img {
+  max-width: 80px;
+  height: auto;
+  display: block;
+  margin: 0 auto 5px;
+}
+
+#specs-sec .upgrades .img-container a {
   display: block;
   font-size: 18px;
   text-align: center;
+  color: #000;
+  text-decoration: none;
 }
 
+/*** REVIEWS ***/
 #specs-sec .reviews {
-  margin: 10px 0px;
-  margin-top: 20%;
+  margin: 20px 0;
+  width: 100%;
+}
+
+#specs-sec .reviews ul {
+  padding-left: 20px;
 }
 
 #specs-sec .reviews ul li {
-  font-size: 18px;
-  padding-bottom: 10px;
+  font-size: 16px;
+  font-style: italic;
+  margin-bottom: 10px;
 }
 
+/******* MEDIA QUERIES ***************/
+@media (min-width: 768px) {
+  .hero-shot h1 {
+    font-size: 36px;
+  }
 
-@media (min-width: 768px){
-  body {
-    background-image: url("/images/site/checkerboard.jpg");
-  }
-  #sitePage{
-    max-width: 80%;
-    margin: 0 auto;
-    padding: 2%;
-    border-radius: 15px;
-    border: 5px solid #00c3ff;
-  }
-  #sitePage{
-    max-width: 100%;
-  }
-  #specs-sec .reviews {
-    margin-top: 0%;
-  }
-  #specs-sec .upgrades .img-container{
-    width: 45%;
-  }
-}
-
-@media (min-width: 1200px){
-  #sitePage{
-    max-width: 80%;
-  }
-  #specs-sec .upgrades .img-container{
-    width: 45%;
-  }
-}
-@media (min-width: 1200px){
-  #specs-sec{
+  #specs-sec {
     flex-direction: row;
+    gap: 20px;
   }
-  #specs-sec .upgrades{
-    width: 60%;
-    padding: 10px;
+
+  #specs-sec .upgrades,
+  #specs-sec .reviews {
+    width: 48%;
   }
-  #specs-sec .reviews{
-    width: 40%;
-    padding: 10px;
+
+  #specs-sec .upgrades .img-container {
+    width: 48%;
+  }
+}
+
+@media (min-width: 1200px) {
+  #sitePage {
+    max-width: 80%;
+  }
+
+  #specs-sec .upgrades .img-container {
+    width: 45%;
   }
 }
