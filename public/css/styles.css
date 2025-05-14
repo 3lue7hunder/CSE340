@@ -170,6 +170,11 @@ footer {
 
 /******* Responsive Tweaks *******/
 @media (max-width: 768px) {
+  body {
+    background-image: none;
+    background-color: #f4f4f4; /* fallback color */
+  }
+
   .hero-container {
     flex-direction: column;
     align-items: center;
@@ -179,7 +184,27 @@ footer {
     flex-direction: column;
   }
 
+  .reviews {
+    order: -1; /* Move reviews above upgrades */
+  }
+
   .upgrades, .reviews {
     flex: 1 1 100%;
   }
+
+  .upgrades .img-container {
+    width: 48%;
+    display: inline-block;
+    margin-right: 2%;
+    box-sizing: border-box;
+  }
+
+  .upgrades .img-container:nth-child(odd) {
+    margin-right: 2%;
+  }
+
+  .upgrades .img-container:nth-child(even) {
+    margin-right: 0;
+  }
 }
+
