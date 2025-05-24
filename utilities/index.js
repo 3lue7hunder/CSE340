@@ -7,7 +7,6 @@ const Util = {}
 Util.getNav = async function (req, res, next) {
   let data = await invModel.getClassifications()
   let list = "<ul>"
-  console.log(data)
   list += '<li><a href="/" title="Home page">Home</a></li>'
   data.rows.forEach((row) => {
     list += "<li>"
@@ -24,6 +23,7 @@ Util.getNav = async function (req, res, next) {
   list += "</ul>"
   return list
 }
+
 
 /* **************************************
 * Build the classification view HTML
@@ -56,34 +56,6 @@ Util.buildClassificationGrid = async function(data){
     grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
   }
   return grid
-}
-
-/* **************************************
-* Build the single vehicle view HTML
-* ************************************ */
-Util.buildSingleListing = async function(data) {
-  let listing = ''
-  if(data) {
-    listing = `
-    <section class="vehicle-info">
-      <div class="vehicle-image">
-        <img src="../../${data.inv_image}" alt="${data.inv_make} ${data.inv_model}">
-      </div>
-      <div class="vehicle-description">
-        <h2>${data.inv_make} ${data.inv_model} Details</h2>
-        <ul>
-          <li><strong>Price:</strong> ${Number.parseFloat(data.inv_price).toLocaleString("en-US", {style:"currency", currency:"USD"})}</li>
-          <li><strong>Description:</strong> ${data.inv_description}</li>
-          <li><strong>Color:</strong> ${data.inv_color}</li>
-          <li><strong>Miles:</strong> ${data.inv_miles}</li>
-        </ul>
-      </div>
-    </section>`
-  } else {
-    listing = `<p>No matching vehicles found.</p>`
-  }
-
-  return listing
 }
 
 /* ****************************************
