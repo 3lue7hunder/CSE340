@@ -58,6 +58,34 @@ Util.buildClassificationGrid = async function(data){
   return grid
 }
 
+/* **************************************
+* Build the single vehicle view HTML
+* ************************************ */
+Util.buildSingleListing = async function(data) {
+  let listing = ''
+  if(data) {
+    listing = `
+    <section class="vehicle-info">
+      <div class="vehicle-image">
+        <img src="../../${data.inv_image}" alt="${data.inv_make} ${data.inv_model}">
+      </div>
+      <div class="vehicle-description">
+        <h2>${data.inv_make} ${data.inv_model} Details</h2>
+        <ul>
+          <li><strong>Price:</strong> ${Number.parseFloat(data.inv_price).toLocaleString("en-US", {style:"currency", currency:"USD"})}</li>
+          <li><strong>Description:</strong> ${data.inv_description}</li>
+          <li><strong>Color:</strong> ${data.inv_color}</li>
+          <li><strong>Miles:</strong> ${data.inv_miles}</li>
+        </ul>
+      </div>
+    </section>`
+  } else {
+    listing = `<p>No matching vehicles found.</p>`
+  }
+
+  return listing
+}
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
