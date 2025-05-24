@@ -60,13 +60,11 @@ app.use(async (err, req, res, next) => {
  * Local Server Information
  * Values from .env (environment) file
  *************************/
-const port = process.env.PORT
+const port = process.env.PORT || 3000; // fallback for local dev
 
 /* ***********************
  * Log statement to confirm server operation
  *************************/
-const port = process.env.PORT || 3000; // fallback for local dev
-
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 });
