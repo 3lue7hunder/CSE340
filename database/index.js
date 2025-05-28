@@ -3,45 +3,30 @@ require("dotenv").config()
 
 let pool
 
-if (process.env.NODE_ENV == "development") {
+if (process.env.NODE_ENV === "development") {
+  // Use SSL with rejectUnauthorized false for local dev with e.g. Heroku Postgres
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
       rejectUnauthorized: false,
     },
   })
-
-  module.exports = {
-    async query(text, params) {
-      try {
-        const res = await pool.query(text, params)
-        console.log("executed query", { text })
-        return res
-      } catch (error) {
-        console.error("error in query", { text })
-        throw error
-      }
-    },
-  }
-
 } else {
+  // Production environment - no SSL or different SSL config if needed
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false,
-    },
   })
+}
 
-  // Match development's return shape
-  module.exports = {
-    async query(text, params) {
-      try {
-        const res = await pool.query(text, params)
-        return res
-      } catch (error) {
-        console.error("error in production query", { text })
-        throw error
-      }
-    },
-  }
+module.exports = {
+  async query(text, params) {
+    try {
+      const res = await pool.query(text, params)
+      console.log("Executed query:", { text })
+      return res.rows // Always return only rows array for easier handling
+    } catch (error) {
+      console.error("Error in query:", { text, error })
+      throw error
+    }
+  },
 }
