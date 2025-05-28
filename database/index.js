@@ -1,32 +1,38 @@
-const { Pool } = require("pg")
-require("dotenv").config()
+const { Pool } = require("pg");
+require("dotenv").config();
 
-let pool
+/* ***************
+ * Connection Pool
+ * SSL required in production environment for DB host
+ * *************** */
 
-if (process.env.NODE_ENV === "development") {
-  // Use SSL with rejectUnauthorized false for local dev with e.g. Heroku Postgres
+let pool;
+
+if (process.env.NODE_ENV === "production") {
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
-      rejectUnauthorized: false,
+      rejectUnauthorized: false, // Accept self-signed certs or unknown CA (common in cloud DBs)
     },
-  })
+  });
 } else {
-  // Production environment - no SSL or different SSL config if needed
+  // For local development, you might disable SSL or set it similarly if your local DB supports SSL
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-  })
+    ssl: false,
+  });
 }
 
+// Export a query function for consistency
 module.exports = {
   async query(text, params) {
     try {
-      const res = await pool.query(text, params)
-      console.log("Executed query:", { text })
-      return res.rows // Always return only rows array for easier handling
+      const res = await pool.query(text, params);
+      console.log("executed query", { text });
+      return res;
     } catch (error) {
-      console.error("Error in query:", { text, error })
-      throw error
+      console.error("error in query", { text, error });
+      throw error;
     }
   },
-}
+};
