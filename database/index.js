@@ -5,26 +5,25 @@ require("dotenv").config();
  * Connection Pool
  * SSL configuration depending on environment
  * *************** */
-let pool;
+let sslConfig = false;
 
-if (process.env.NODE_ENV === "development") {
-  // In development, allow self-signed certs (useful for local testing)
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  });
+// Enable relaxed SSL for development or when RELAX_SSL is explicitly true (e.g., Render)
+if (process.env.NODE_ENV !== "production" || process.env.RELAX_SSL === "true") {
+  sslConfig = {
+    rejectUnauthorized: false,
+  };
 } else {
-  // In production, enforce SSL without rejectUnauthorized false
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      // If your production DB requires SSL, you can specify options here
-      rejectUnauthorized: true,
-    },
-  });
+  // Enforce strict SSL in production with verified certificates
+  sslConfig = {
+    rejectUnauthorized: true,
+  };
 }
+
+// Create connection pool with SSL configuration
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: sslConfig,
+});
 
 /**
  * Runs a SQL query and returns only the rows array for ease of use
@@ -36,7 +35,7 @@ async function query(text, params) {
   try {
     const res = await pool.query(text, params);
     console.log("executed query", { text });
-    return res.rows;  // <-- Return only rows for cleaner consumption
+    return res.rows;  // Return only rows for cleaner consumption
   } catch (error) {
     console.error("error in query", { text, error });
     throw error;
