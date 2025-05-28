@@ -1,6 +1,6 @@
 // inventory-model.js
 
-const pool = require("../database/")
+const db = require("../database");  // Import the whole object
 
 /**
  * Get all classification records from the database.
@@ -8,13 +8,13 @@ const pool = require("../database/")
  */
 async function getClassifications() {
   try {
-    const result = await pool.query(
+    const rows = await db.query(
       "SELECT * FROM public.classification ORDER BY classification_name"
-    )
-    return result.rows
+    );
+    return rows;  // rows returned directly by db.query()
   } catch (error) {
-    console.error("getClassifications error:", error)
-    throw error
+    console.error("getClassifications error:", error);
+    throw error;
   }
 }
 
@@ -25,17 +25,17 @@ async function getClassifications() {
  */
 async function getInventoryByClassificationId(classification_id) {
   try {
-    const result = await pool.query(
+    const rows = await db.query(
       `SELECT * FROM public.inventory AS i 
        JOIN public.classification AS c 
        ON i.classification_id = c.classification_id 
        WHERE i.classification_id = $1`,
       [classification_id]
-    )
-    return result.rows
+    );
+    return rows;
   } catch (error) {
-    console.error("getInventoryByClassificationId error:", error)
-    throw error
+    console.error("getInventoryByClassificationId error:", error);
+    throw error;
   }
 }
 
@@ -46,22 +46,22 @@ async function getInventoryByClassificationId(classification_id) {
  */
 async function getInventoryByInventoryId(inventory_id) {
   try {
-    const result = await pool.query(
+    const rows = await db.query(
       `SELECT * FROM public.inventory AS i
        JOIN public.classification AS c
        ON i.classification_id = c.classification_id
        WHERE inv_id = $1`,
       [inventory_id]
-    )
-    return result.rows[0] // return single item
+    );
+    return rows[0]; // return single item
   } catch (error) {
-    console.error("getInventoryByInventoryId error:", error)
-    throw error
+    console.error("getInventoryByInventoryId error:", error);
+    throw error;
   }
 }
 
 module.exports = {
   getClassifications,
   getInventoryByClassificationId,
-  getInventoryByInventoryId
-}
+  getInventoryByInventoryId,
+};
