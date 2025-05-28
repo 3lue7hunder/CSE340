@@ -19,19 +19,24 @@ const session = require("express-session")
 const pool = require('./database')
 const bodyParser = require("body-parser")
 
+/* Check for SESSION_SECRET in environment */
+if (!process.env.SESSION_SECRET) {
+  console.error("WARNING: SESSION_SECRET environment variable is not set. Using default secret for sessions.");
+}
 
 /* ***********************
  * Middleware
  * ************************/
 app.use(session({
-  store: new  (require('connect-pg-simple')(session))({
+  store: new (require('connect-pg-simple')(session))({
     createTableIfMissing: true,
     pool,
   }),
-  secret: process.env.SESSION_SECRET,
-  resave: true,
+  secret: process.env.SESSION_SECRET || "defaultSuperSecretSessionKey123!",
+  resave: false,             // changed to false as recommended
   saveUninitialized: true,
   name: 'sessionId',
+  cookie: { secure: false }, // set to true if using HTTPS
 }))
 
 // Express Messages Middleware
@@ -43,7 +48,7 @@ app.use(function(req, res, next) {
 
 // Body parser
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true})) // for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 /* ***********************
  * View Engine and Templates
@@ -51,6 +56,7 @@ app.use(bodyParser.urlencoded({ extended: true})) // for parsing application/x-w
 app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout") // not at views root
+
 /* ***********************
  * Routes
  *************************/
@@ -80,8 +86,8 @@ app.use(async (req, res, next) => {
 app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav()
   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
-  if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
-  res.render("errors/error", {
+  let message = err.status == 404 ? err.message : 'Oh no! There was a crash. Maybe try a different route?'
+  res.status(err.status || 500).render("errors/error", {
     title: err.status || 'Server Error',
     message,
     nav
@@ -92,8 +98,8 @@ app.use(async (err, req, res, next) => {
  * Local Server Information
  * Values from .env (environment) file
  *************************/
-const port = process.env.PORT
-const host = process.env.HOST
+const port = process.env.PORT || 3000
+const host = process.env.HOST || "localhost"
 
 /* ***********************
  * Log statement to confirm server operation
