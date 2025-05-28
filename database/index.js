@@ -1,10 +1,6 @@
 const { Pool } = require("pg")
 require("dotenv").config()
 
-/* ***************
- * Connection Pool
- * Use SSL in both development and production
- * *************** */
 let pool
 
 if (process.env.NODE_ENV == "development") {
@@ -15,7 +11,6 @@ if (process.env.NODE_ENV == "development") {
     },
   })
 
-  // Added for troubleshooting queries during development
   module.exports = {
     async query(text, params) {
       try {
@@ -30,7 +25,6 @@ if (process.env.NODE_ENV == "development") {
   }
 
 } else {
-  // PRODUCTION: Render requires SSL
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
@@ -38,5 +32,16 @@ if (process.env.NODE_ENV == "development") {
     },
   })
 
-  module.exports = pool
+  // Match development's return shape
+  module.exports = {
+    async query(text, params) {
+      try {
+        const res = await pool.query(text, params)
+        return res
+      } catch (error) {
+        console.error("error in production query", { text })
+        throw error
+      }
+    },
+  }
 }
