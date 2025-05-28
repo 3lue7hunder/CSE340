@@ -72,10 +72,10 @@ Util.buildSingleListing = async function(data) {
       <div class="vehicle-description">
         <h2>${data.inv_make} ${data.inv_model} Details</h2>
         <ul>
-          <li><strong>Price:</strong> ${Number.parseFloat(data.inv_price).toLocaleString("en-US", {style:"currency", currency:"USD"})}</li>
+          <li><strong>Price: ${Number.parseFloat(data.inv_price).toLocaleString("en-US", {style:"currency", currency:"USD"})} </strong></li>
           <li><strong>Description:</strong> ${data.inv_description}</li>
           <li><strong>Color:</strong> ${data.inv_color}</li>
-          <li><strong>Miles:</strong> ${data.inv_miles}</li>
+          <li><strong>Miles:</strong> ${data.inv_miles.toLocaleString("en-US", {style: "decimal"})}</li>
         </ul>
       </div>
     </section>`
