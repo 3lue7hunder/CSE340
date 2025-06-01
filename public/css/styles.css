@@ -4,607 +4,379 @@
 *:after {
   box-sizing: border-box;
 }
-/*** GENERAL /****/
-body {
-  padding: 1% 2%;
+
+:root {
+  --primary-color: #30b3cf;
+  --secondary-color: #242332;
+
+  --heading-font: "Funnel Display", sans-serif;
+  --paragraph-font: "Montserrat", sans-serif;
 }
-#sitePage{
-  background-color: #fff;
+
+* {
+  margin: 0;
 }
-/*** HEADER STYLES ***/
-#top-header{
+header {
+  background-color: white;
+}
+.siteName {
   display: flex;
+  padding: 10px;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 3%;
-}
-#top-header .siteName a {
   font-size: 30px;
+  font-family: var(--heading-font);
+}
+.siteName a, #tools a {
   text-decoration: none;
-  color: #000;
-  font-weight: 700;
-  font-family: "Arial";
+  color: black;
 }
-
-#top-header #tools a {
-  font-size: 20px;
-  text-decoration: none;
-  color: #000;
-  font-weight: 400;
-  font-family: "Arial";
+#tools {
+  position: absolute;
+  top: -3px;
+  right: .5rem;
+  padding: 1rem;
+  font-family: var(--paragraph-font);
 }
-
-#wrapper nav{
-  background: #001F3F;
+nav {
+  background-color: var(--secondary-color);
+  width: 100%;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-family: var(--paragraph-font);
 }
-
-#wrapper nav ul{
+nav ul {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: space-between;
+  align-items: center; 
+  list-style: none;
+  text-align: left;
+  padding: 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+nav a {
+  text-decoration: none;
+  color: white;
+  padding: 1rem;
+  font-size: 14px;
+}
+#hero img {
+  width: 100%;
+  height: 100%;
+}
+#hero {
+  position: relative;
+  padding-bottom: 20px;
+}
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: white;
+}
+.floating-text {
+  background-color: rgba(255, 255, 255, 0.8);
+  position: absolute;
+  top: 1em;
+  color: var(--primary-color);
+  padding: 5px;
+  width: 100%;
+  max-width: 180px;
+  
+}
+h1, h2, h3 {
+  font-family: var(--heading-font);
+}
+h1 {
+  font-size: 35px;
+}
+.floating-text ul, #inv-display li, #inv-display ul, .vehicle-description ul {
   list-style: none;
   padding: 0;
-  margin: 0px;
 }
-
-#wrapper nav ul li {
-  color: #fff;
-  padding: 10px 0;
-  font-size: 15px;
-  font-family: "Arial";
-}
-
-/*** hero shot /****/
-.hero-shot h1{
-  font-size: 30px;
-  color: #000;
-  font-weight: 700;
-  font-family: "Arial";
-}
-.hero-shot .hero-container{
-  display: flex;
-  align-items: center;
-}
-.hero-shot .hero-container .img-container img {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-}
-.hero-shot .hero-container .hero-box{
-  width: 20%;
-  position: relative;
-  z-index: 2;
-  left: 10%;
-  background-color: rgba(255, 255, 255, 0.8); 
-}
-.hero-shot .hero-container .hero-box h3{
-  font-size: 23px;
-  color: #00c3ff;
-  font-weight: 700;
-  font-family: "Arial";
-  margin: 0;
-}
-.hero-shot .hero-container .hero-box p{
+.floating-text li, .card li {
+  padding: 3px;
   font-size: 18px;
-  color: #00c3ff;
-  font-weight: 400;
-  font-family: "Arial";
-  margin: 5px 0;
+  font-family: var(--paragraph-font);
 }
-
-.hero-shot .hero-container .hero-box .hero-btn{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 160px;
-  height: 50px;
-  background: #00c3ff;
-  color: #000;
-  font-size: 15px;
-  font-family: "Arial";
-  text-decoration: none;
-  font-weight: 700;
-  margin-top: 20px;
-}
-
-#specs-sec{
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  flex-direction: column-reverse;
-}
-#specs-sec h3 {
-  font-size: 23px;
-  color: #000;
-  font-weight: 700;
-  font-family: "Arial";
-  margin: 0;
-}
-
-#specs-sec .upgrades{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-  margin: 10px 0px;
-}
-#specs-sec .upgrades h3 {
-  width: 100%;
-}
-#specs-sec .upgrades .img-container{
-  width: 45%;
+#button {
+  background-color: var(--primary-color);
+  color: black;
+  font-family: var(--paragraph-font);
+  font-size: 20px;
   padding: 10px;
-  margin: 5px;
-  text-align: center;
-  background-color: #00c3ff;
-  height: 120px;
-}
-
-#specs-sec .upgrades .img-container a{
-  display: block;
-  font-size: 18px;
+  border: 1px outset buttonborder;
+  border-radius: 3px;
+  text-decoration: none;
+  display: inline-block;
+  width: 100%;
   text-align: center;
 }
-
-#specs-sec .reviews {
-  margin: 10px 0px;
-  margin-top: 20%;
-}
-
-#specs-sec .reviews ul li {
-  font-size: 18px;
-  padding-bottom: 10px;
-}
-
-
-@media (min-width: 768px){
-  body {
-    background-image: url("/images/site/checkerboard.jpg");
-  }
-  #sitePage{
-    max-width: 80%;
-    margin: 0 auto;
-    padding: 2%;
-    border-radius: 15px;
-    border: 5px solid #00c3ff;
-  }
-  #sitePage{
-    max-width: 100%;
-  }
-  #specs-sec .reviews {
-    margin-top: 0%;
-  }
-  #specs-sec .upgrades .img-container{
-    width: 45%;
-  }
-}
-
-@media (min-width: 1200px){
-  #sitePage{
-    max-width: 80%;
-  }
-  #specs-sec .upgrades .img-container{
-    width: 45%;
-  }
-}
-@media (min-width: 1200px){
-  #specs-sec{
-    flex-direction: row;
-  }
-  #specs-sec .upgrades{
-    width: 60%;
-    padding: 10px;
-  }
-  #specs-sec .reviews{
-    width: 40%;
-    padding: 10px;
-  }
-}
-
-
-
-
-
-
-
-
-
-
-.vehicle-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 2rem;
-  align-items: flex-start;
+.main-body {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 2fr));
   justify-content: center;
-  margin: 2rem;
-  padding: 2rem;
-  background: linear-gradient(135deg, #f0f4f8, #ffffff);
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-  animation: fadeIn 0.6s ease-in-out;
+  margin: 10px;
+  gap: 3rem;
+  padding: 10px;
+}
+.card {
+  margin: 15px;
+}
+.card ul {
+  padding-left: 20px;
+}
+.card h3 {
+  font-size: 25px;
+}
+.upgrade-links {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 2rem;
+  margin: 5px;
+}
+.upgrade-fig {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background-color: var(--primary-color);
+}
+figure {
+  position: relative;
+}
+figcaption {
+  position: absolute;
+  bottom: -15px;
+  left: 0;
+  right: 0;
+  background-color: white;
+}
+footer {
+  padding-top: 15px;
+  padding-left: 5px;
+  font-family: var(--paragraph-font);
 }
 
-.vehicle-detail {
+nav li:hover {
+  background-color: var(--primary-color);
+}
+nav li a:hover {
+  color: black;
+}
+#tools a:hover {
+  color: #136172;
+}
+#button:hover {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+
+#inv-display {
+  padding: 0;
   display: flex;
-  flex-direction: column;
-  max-width: 600px;
-  background-color: #ffffff;
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin: 0 auto;
+  /* flex-direction: column; */
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
-
-.vehicle-detail:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+#inv-display li {
+  margin: 10px;
+  text-decoration: none;
+  text-align: center;
+  border: solid 1px black;
+  border-radius: 3px;
+  position: relative;
+  height: 325px;
+  max-width: 350px;
+  width: 100%;
 }
-
-.vehicle-detail img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-  margin-bottom: 1rem;
-  border: 2px solid #eaeaea;
+#inv-display img {
+  width: 100%;
+  max-width: 350px;
+}
+.namePrice {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-top: solid 5px black;
 }
 
 .vehicle-info {
-  font-size: 1.1rem;
-  line-height: 1.7;
-  color: #333;
-}
-
-.vehicle-info h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #2c3e50;
-}
-
-.vehicle-info p {
-  margin: 0.5rem 0;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.vehicle-image img {
+  width: 100%;
+}
+.vehicle-description li {
+  padding: 8px;
+  font-size: 20px;
+  font-family: var(--paragraph-font);
+}
+.vehicle-description ul {
+  padding-top: 10px;
 }
 
-.vehicle-info p strong {
-  display: inline-block;
-  min-width: 140px;
-  color: #555;
-  font-weight: 600;
-}
-
-.vehicle-info span {
-  color: #2c3e50;
-}
-
-@media (max-width: 768px) {
-  .vehicle-container {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .vehicle-detail {
-    width: 100%;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.vehicle-info .price {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #27ae60;
-  background-color: #ecfdf5;
-  padding: 0.5rem 1rem;
-  border-radius: 10px;
-  display: inline-block;
-  margin-top: 1rem;
-}
-
-#inv-display {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  list-style: none;
-  padding: 0;
-  margin: 2rem;
-}
-
-#inv-display li {
-  background: #fff;
-  border-radius: 1rem;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-#inv-display li:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-}
-
-#inv-display li img {
-  width: auto;
+#loginForm, #outer-reg-form {
+  background-color: #99abc5;
   margin: 0 auto;
-  height: auto;
-  display: block;
-  border-bottom: 1px solid #eee;
-}
-
-.namePrice {
-  padding: 1rem;
-  text-align: center;
-}
-
-.namePrice h2 {
-  font-size: 1.2rem;
-  margin: 0.5rem 0;
-  color: #333;
-}
-
-.namePrice a {
-  text-decoration: none;
-  color: #0056b3;
-  transition: color 0.3s ease;
-}
-
-.namePrice a:hover {
-  color: #e67e22;
-}
-
-.namePrice span {
-  display: inline-block;
-  margin-top: 0.5rem;
-  font-weight: bold;
-  font-size: 1.1rem;
-  color: #27ae60;
-}
-
-
-
-
-#inv-display li {
-  opacity: 0;
-  animation: fadeInUp 0.6s ease forwards;
-}
-
-@keyframes fadeInUp {
-  from {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-
-.login-form {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  background-color: #f9f9f9;
-}
-
-.login-form label {
-  display: block;
-  margin-top: 1rem;
-}
-
-.login-form input {
   width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.25rem;
-  border: 1px solid #aaa;
-  border-radius: 5px;
-}
-
-.login-form button {
-  margin-top: 1.5rem;
-  padding: 0.75rem;
-  width: 100%;
-  background-color: #0056b3;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.flash-message {
-  color: #d8000c;
-  background-color: #ffbaba;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-
-.registration-form {
-  max-width: 400px;
-  margin: 2rem auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.registration-form input,
-.registration-form button {
-  padding: 0.5rem;
-  font-size: 1rem;
-}
-
-.flash-message {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-  padding: 0.75rem;
-  margin-bottom: 1rem;
-  border-radius: 5px;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* General Page Layout */
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f7f9;
-  color: #333;
-  margin: 0;
-  padding: 0;
-}
-
-main {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: white;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
-  border-radius: 10px;
-}
-
-/* Headings */
-h1, h2 {
-  text-align: center;
-  color: #2c3e50;
-  margin-bottom: 1rem;
-}
-
-/* Navigation */
-nav ul {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  list-style: none;
-  padding: 0;
-  justify-content: center;
-}
-
-nav ul li a {
-  text-decoration: none;
-  color: #3498db;
-  padding: 0.5rem 1rem;
-  border: 1px solid #3498db;
-  border-radius: 5px;
-  transition: background 0.3s;
-}
-
-nav ul li a:hover {
-  background-color: #3498db;
-  color: white;
-}
-
-/* Forms */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-label {
-  font-weight: bold;
-  margin-bottom: 0.3rem;
-}
-
-input[type="text"],
-input[type="number"],
-input[type="url"],
-select,
-textarea {
-  padding: 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-textarea {
-  resize: vertical;
-}
-
-button, input[type="submit"] {
-  background-color: #2ecc71;
-  color: white;
-  border: none;
-  padding: 0.75rem;
-  font-size: 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-button:hover, input[type="submit"]:hover {
-  background-color: #27ae60;
-}
-
-/* Flash Messages */
-.notice {
-  padding: 1rem;
-  background-color: #fce4ec;
-  color: #c2185b;
-  border-left: 5px solid #c2185b;
-  margin-bottom: 1rem;
-  border-radius: 5px;
-}
-
-/* Inventory Grid */
-#inv-display {
-  list-style: none;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1rem;
-  padding: 0;
-}
-
-#inv-display li {
-  background: #fff;
-  border: 1px solid #eee;
-  padding: 1rem;
+  max-width: 600px;
+  padding: 20px;
+  font-family: var(--paragraph-font);
   border-radius: 8px;
+}
+#inner-form {
+  background-color: #1f3b4d;
+  color: white;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+}
+label {
+  font-size: 20px;
+}
+input[type=email], input[type=password], input[type=text], select, textarea, input[type=number] {
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px 20px;
+  display: inline-block;
+  box-sizing: border-box;
+  font-family: var(--paragraph-font);
+}
+.form-button {
   text-align: center;
 }
-
-#inv-display img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 6px;
+#loginForm input[type=submit], #register-form input[type=submit] {
+  padding-right: 15px;
+  padding-left: 15px;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 25px;
+  width: 100px;
+  font-family: var(--paragraph-font);
+}
+input[type=submit]:hover {
+  background-color: var(--secondary-color);
+  color: white;
+}
+#loginForm p {
+  text-align: center;
+  font-size: 18px;
+  padding-top: 10px;
+}
+#loginForm a, #login-info {
+  color: white;
+}
+#login-info {
+  font-size: 11px;
+}
+#outer-reg-form {
+  border: solid 3px black;
+  background-color: white;
+  margin-top: 10px;
+}
+#pswdBtn {
+  border: solid 2px black;
+  border-radius: 3px;
+  padding: 2px;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  width: 7em;
+}
+.reg-form-button input[type=submit] {
+  margin-top: 1em;
+  background-color: var(--secondary-color);
+  color: white;
+}
+.reg-form-button input[type=submit]:hover {
+  background-color: rgb(4, 73, 129);
+}
+#pwd-info {
+  font-size: 11px;
+  color: darkslategray;
+}
+#class-form input[type=submit] {
+  padding-right: 15px;
+  padding-left: 15px;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 25px;
+  width: 200px;
+  font-family: var(--paragraph-font);
+}
+#class-form {
+  border-radius: 8px;
+  margin: 10px;
+  max-width: 600px;
+  width: 100%;
+  padding: 8px;
+  background-color: var(--primary-color);
+  font-family: var(--paragraph-font);
+}
+.requirement {
+  padding-top: 20px;
+  padding-bottom: 10px;
+  font-style: italic;
+  font-size: 18px;
+}
+.inv-forms {
+  border: solid 2px white;
+  border-radius: 8px;
+  padding: 8px;
+}
+.inv-info {
+  color: black;
+  font-size: 11px;
+}
+:required:invalid {
+  background-color: rgb(253, 226, 226);
+}
+:required:valid {
+  background-color: rgb(229, 255, 229);
+}
+#management {
+  margin: 8px;
+  font-family: var(--paragraph-font);
+  list-style: none;
+}
+#management li {
+  padding: 10px;
+  font-size: 20px;
+}
+.notice {
+  color: rgb(165, 3, 3);
+  font-size: 18px;
+  font-style: italic;
+  font-family: var(--paragraph-font);
 }
 
-.namePrice {
-  margin-top: 1rem;
-}
-
-.namePrice h2 {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-}
-
-.namePrice span.price {
-  color: #27ae60;
-  font-weight: bold;
-  font-size: 1.2rem;
+@media screen and (min-width: 600px) {
+  #outer {
+    background-image: url('/images/site/checkerboard.jpg');
+  }
+  #wrapper {
+    padding: 10px;
+    border: solid 5px var(--primary-color);
+    border-radius: 3px;
+    margin: 40px;
+    background-color: white;
+  }
+  #tools {
+    position: absolute;
+    top: 35px;
+    right: 3rem;
+  }
+  nav a {
+    font-size: 18px;
+  }
+  .vehicle-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
 }
