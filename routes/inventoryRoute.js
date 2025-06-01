@@ -1,37 +1,23 @@
-// Needed Resources 
-const express = require("express")
-const router = new express.Router() 
-const invController = require("../controllers/invController")
-const invValidate = require("../utilities/inventory-validation")
-const utilities = require("../utilities/")
+// Needed Resources
+const express = require("express");
+const router = new express.Router();
+const invController = require("../controllers/invController");
+const utilities = require("../utilities");
+const invValidate = require("../utilities/inventory-validation");
 
 // Route to build inventory by classification view
-router.get("/type/:classificationId", invController.buildByClassificationId);
+router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId));
+// Route to build listing of one item
+router.get("/detail/:inventoryId", utilities.handleErrors(invController.buildByInventoryId));
+// Route to build management view
+router.get("/", utilities.handleErrors(invController.buildManagementView));
 
-// Route to build inventory detail view by vehicle id
-router.get("/detail/:inv_id", invController.buildByVehicleId);
+// Classification Management
+router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification));
+router.post("/add-classification", invValidate.classificationRules(), invValidate.checkClassificationData, utilities.handleErrors(invController.addClassification));
 
-// Inventory Management View
-router.get("/", utilities.handleErrors(invController.buildManagement))
-
-//inventory add classification
-router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification))
-
-router.post("/add-classification",
-    invValidate.classificationRules(),
-    invValidate.checkClassificationData,
-    utilities.handleErrors(invController.addClassification)
-)
-
-//inventory add inventory
-router.get("/add-inventory", 
-    utilities.handleErrors(invController.buildAddInventory)
-  )
-
-  router.post("/add-inventory",
-    invValidate.inventoryRules(),
-    invValidate.checkInventoryData,
-    utilities.handleErrors(invController.addInventory)
-  )
+// Inventory Management
+router.get("/add-inventory", utilities.handleErrors(invController.buildAddInventory));
+router.post("/add-inventory", invValidate.inventoryRules(), invValidate.checkInventoryData, utilities.handleErrors(invController.addInventory));
 
 module.exports = router;
