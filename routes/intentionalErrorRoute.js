@@ -1,14 +1,10 @@
-const express = require("express");
-const router = new express.Router();
-const utilities = require("../utilities");
-const intentErrCon = require("../controllers/intentErrorController");
+const express = require("express")
+const router = new express.Router()
+const utilities = require("../utilities")
 
-router.use("/", utilities.handleErrors(async (req, res, next) => {
-    throw new Error("Intentionally throwing exception through middleware")
-
-    next();
+// Route to trigger 505 error
+router.get("/trigger-error", utilities.handleErrors((req, res) => {
+  throw new Error("Intentional Server Crash")
 }))
 
-router.get("/", utilities.handleErrors(intentErrCon.causeError));
-
-module.exports = router;
+module.exports = router

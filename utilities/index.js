@@ -7,9 +7,8 @@ const Util = {}
 Util.getNav = async function (req, res, next) {
   let data = await invModel.getClassifications()
   let list = "<ul>"
-  console.log(data)
   list += '<li><a href="/" title="Home page">Home</a></li>'
-  data.forEach((row) => {
+  data.rows.forEach((row) => {
     list += "<li>"
     list +=
       '<a href="/inv/type/' +
@@ -53,38 +52,50 @@ Util.buildClassificationGrid = async function(data){
     })
     grid += '</ul>'
   } else { 
-    grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
+    grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>'
   }
   return grid
 }
 
-/* **************************************
-* Build the single vehicle view HTML
-* ************************************ */
-Util.buildSingleListing = async function(data) {
-  let listing = ''
-  if(data) {
-    listing = `
-    <section class="vehicle-info">
-      <div class="vehicle-image">
-        <img src="../../${data.inv_image}" alt="${data.inv_make} ${data.inv_model}">
+/* ***************************
+ *  Build vehicle detail HTML
+ * ************************** */
+function buildVehicleDetailHTML(vehicle) {
+  let detail = `
+    <section class="vehicle-detail">
+      <h2>${vehicle.inv_make} ${vehicle.inv_model}</h2>
+      <img src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
+      <div class="vehicle-info">
+        <p><strong>Price:</strong> <span class="price">$${new Intl.NumberFormat('en-US').format(vehicle.inv_price)}</span></p>
+        <p><strong>Description:</strong> ${vehicle.inv_description}</p>
+        <p><strong>Color:</strong> ${vehicle.inv_color}</p>
+        <p><strong>Miles:</strong> ${new Intl.NumberFormat('en-US').format(vehicle.inv_miles)}</p>
       </div>
-      <div class="vehicle-description">
-        <h2>${data.inv_make} ${data.inv_model} Details</h2>
-        <ul>
-          <li><strong>Price: ${Number.parseFloat(data.inv_price).toLocaleString("en-US", {style:"currency", currency:"USD"})} </strong></li>
-          <li><strong>Description:</strong> ${data.inv_description}</li>
-          <li><strong>Color:</strong> ${data.inv_color}</li>
-          <li><strong>Miles:</strong> ${data.inv_miles.toLocaleString("en-US", {style: "decimal"})}</li>
-        </ul>
-      </div>
-    </section>`
-  } else {
-    listing = `<p>No matching vehicles found.</p>`
-  }
-
-  return listing
+    </section>
+  `;
+  return detail;
 }
+
+/* ***************************
+ *  Build Clasification List
+ * ************************** */
+
+Util.buildClassificationList = async function (selectedId = null) {
+  const data = await invModel.getClassifications()
+  let classificationList = '<select name="classification_id" id="classificationList" required>'
+  classificationList += "<option value=''>Choose a Classification</option>"
+  data.rows.forEach((row) => {
+    classificationList += `<option value="${row.classification_id}"`
+    if (selectedId != null && row.classification_id == selectedId) {
+      classificationList += " selected"
+    }
+    classificationList += `>${row.classification_name}</option>`
+  })
+  classificationList += "</select>"
+  return classificationList
+}
+
+
 
 /* ****************************************
  * Middleware For Handling Errors
@@ -92,5 +103,8 @@ Util.buildSingleListing = async function(data) {
  * General Error Handling
  **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
+
+// Export the buildVehicleDetailHTML function to be accessible outside this file
+Util.buildVehicleDetailHTML = buildVehicleDetailHTML
 
 module.exports = Util
