@@ -144,6 +144,20 @@ Util.checkLogin = (req, res, next) => {
 }
 
 /* ****************************************
+* Check Authorization for Employees or Admins
+**************************************** */
+Util.checkEmployeeOrAdmin = (req, res, next) => {
+  const accountType = res.locals.accountData?.account_type
+  if (accountType === "Employee" || accountType === "Admin") {
+    next()
+  } else {
+    req.flash("notice", "You are not authorized to access that page.")
+    return res.redirect("/account/")
+  }
+}
+
+
+/* ****************************************
 * Check Authorization Middleware
 **************************************** */
 Util.checkAuthorization = (req, res, next) => {
