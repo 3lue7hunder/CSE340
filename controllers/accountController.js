@@ -32,12 +32,16 @@ async function buildRegister(req, res, next) {
 * *************************************** */
 async function buildAccountManagementView(req, res) {
     let nav = await utilities.getNav();
+    const accountData = res.locals.accountData; // <- this is essential
     res.render("account/account-management", {
         title: "Account Management",
         nav,
         errors: null,
+        account: accountData,
+        accountFirstname: accountData.account_firstname // if used in template
     });
-};
+}
+
 
 /* ****************************************
 *  Process Registration
