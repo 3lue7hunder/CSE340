@@ -86,4 +86,20 @@ router.post(
   utilities.handleErrors(invController.deleteInventory)
 )
 
+const utilities = require("../utilities/") // or wherever your Util is exported
+
+// Apply both login and authorization checks to admin-only routes
+invRouter.get("/add-classification", 
+  utilities.checkLogin, 
+  utilities.checkEmployeeOrAdmin, 
+  invController.buildAddClassification
+);
+
+// Same pattern for POST, DELETE, UPDATE admin endpoints
+invRouter.post("/add-classification", 
+  utilities.checkLogin, 
+  utilities.checkEmployeeOrAdmin, 
+  invController.addClassification
+);
+
 module.exports = router

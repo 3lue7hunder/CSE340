@@ -151,14 +151,15 @@ Util.checkLogin = (req, res, next) => {
 * Check Authorization for Employees or Admins
 **************************************** */
 Util.checkEmployeeOrAdmin = (req, res, next) => {
-  const accountType = res.locals.accountData?.account_type
+  const accountType = res.locals.accountData.account_type;
+
   if (accountType === "Employee" || accountType === "Admin") {
-    next()
+    next(); // Authorized
   } else {
-    req.flash("notice", "You are not authorized to access that page.")
-    return res.redirect("/account/")
+    req.flash("notice", "You do not have permission to access this area.");
+    return res.redirect("/account/login");
   }
-}
+};
 
 
 /* ****************************************
@@ -203,6 +204,25 @@ Util.updateCookie = (accountData, res) => {
       maxAge: 3600 * 1000,
     });
   }
+}
+
+/**
+ * Middleware to check if the user is Admin or Employee
+ */
+function checkAccountType(req, res, next) {
+  const { account_type } = res.locals.accountData || {}
+  if (account_type === "Admin" || account_type === "Employee") {
+    return next()
+  } else {
+    req.flash("notice", "You do not have access to that resource.")
+    return res.redirect("/account")
+  }
+}
+
+module.exports = {
+  // ... existing exports
+  checkAccountType,
+  // other utility exports
 }
 
 /* ****************************************
