@@ -11,32 +11,21 @@ const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
-const invController = require("./controllers/invController")
-const inventoryRoute = require("./routes/inventoryRoute")
+const inventoryRoute = require("./routes/inventoryRoute.js")
 const utilities = require("./utilities/")
+const intentionalErrorRoute = require("./routes/intentionalErrorRoute.js")
+const accountRoute = require("./routes/accountRoute.js")
 const session = require("express-session")
-const pool = require('./database/')
-const accountRoute = require("./routes/accountRoute")
-const accountController = require("./controllers/accountController")
+const pool = require('./database')
 const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
 
 
 /* ***********************
- * View Engine and Templates
- *************************/
-app.set("view engine", "ejs")
-app.use(expressLayouts)
-app.set("layout", "./layouts/layout") // not at views root
-// Route to build login view
-app.get("/login", utilities.handleErrors(accountController.buildLogin))
-app.get("/register", utilities.handleErrors(accountController.buildRegister))
-
-/* ***********************
  * Middleware
  * ************************/
 app.use(session({
-  store: new (require('connect-pg-simple')(session))({
+  store: new  (require('connect-pg-simple')(session))({
     createTableIfMissing: true,
     pool,
   }),
@@ -45,44 +34,47 @@ app.use(session({
   saveUninitialized: true,
   name: 'sessionId',
 }))
-app.use(cookieParser())
-app.use(utilities.checkJWTToken)
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 // Express Messages Middleware
 app.use(require('connect-flash')())
-app.use(function(req, res, next){
+app.use(function(req, res, next) {
   res.locals.messages = require('express-messages')(req, res)
   next()
 })
-app.use("/account", require("./routes/accountRoute"))
-// Route for registration view
-app.get("/register", utilities.handleErrors(accountController.buildRegister))
-// Route for process registration
-app.get("/register", utilities.handleErrors(accountController.registerAccount))
-// Route for Inventory Management view
-app.get("/management", utilities.handleErrors(invController.buildManagementPage))
-// Route for Add Class View
-app.get("/add-classification", utilities.handleErrors(invController.buildNewClass))
-// Route to add Class to database
-app.get("/add-classification", utilities.handleErrors(invController.addClassification))
-app.get("/addInventory", utilities.handleErrors(invController.buildInventoryPage))
-app.get("/addInventory", utilities.handleErrors(invController.addCarToDatabase))
 
+// Body parser
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true})) // for parsing application/x-www-form-urlencoded
 
+// Cookie Parser
+app.use(cookieParser())
 
+// Checking JWT Token
+app.use(utilities.checkJWTToken)
+
+/* ***********************
+ * View Engine and Templates
+ *************************/
+app.set("view engine", "ejs")
+app.use(expressLayouts)
+app.set("layout", "./layouts/layout") // not at views root
 /* ***********************
  * Routes
  *************************/
 app.use(static)
+
 // Index route
 app.get("/", utilities.handleErrors(baseController.buildHome))
-// Inventory routes
-app.use("/inv", require("./routes/inventoryRoute"))
-// Account routes
+
+// Account route
 app.use("/account", require("./routes/accountRoute"))
-app.use("/inventory", require("./routes/inventoryRoute"), utilities.handleErrors(inventoryRoute))
+
+// Inventory routes
+app.use("/inv", inventoryRoute)
+
+// Intentional Error route
+app.use("/error", intentionalErrorRoute);
+
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})

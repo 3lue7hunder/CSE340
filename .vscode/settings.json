@@ -1,4 +1,5 @@
 {
+    "liveServer.settings.port": 5501,
     "sqltools.connections": [
         {
             "pgOptions": {
@@ -10,7 +11,7 @@
             "server": "localhost",
             "driver": "PostgreSQL",
             "name": "render.com",
-            "connectString": "postgresql://cse340_emersonfr:MFFsGQDkQ2KnZmC9IbUAXv7YFAKAMptE@dpg-d0j90h3e5dus73c8sbig-a.virginia-postgres.render.com/cse340_emersonfr"
+            "connectString": "postgresql://cse340:qrqCvKcgI7bLNNGYI5tUTh0qi4O5dRoT@dpg-d0e22h49c44c73ch09ng-a.oregon-postgres.render.com/cse340_ztti"
         }
     ]
 }

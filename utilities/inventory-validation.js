@@ -1,135 +1,140 @@
-const utilities = require(".")
+const utilities = require("../utilities")
 const { body, validationResult } = require("express-validator")
 const validate = {}
-const invModel = require("../models/inventory-model")
 
-/* ********************************
-* Check Inventory Rules
-* ******************************* */
-validate.inventoryAddRules = () => {
+/*  **********************************
+  *  Classification Data Validation Rules
+  * ********************************* */
+validate.classificationRules = () => {
     return [
-        // make is required and must be a string
-        body("inv_make")
+        body("classification_name")
             .trim()
-            .isLength({ min: 1 })
-            .withMessage("Please provide a car make."), // on error this message is sent
-
-        //model is required and must be a string
-        body("inv_model")
-            .isLength({ min: 2 })
-            .withMessage("Please provide a car model."), 
-
-        //year is required and must be 4 digits
-        body("inv_year")
-            .trim()
-            .isNumeric()
-            .withMessage("A year is required."),
-
-        // Description is required and must be a string
-        body("inv_description")
-            .isLength({ min: 1 })
-            .withMessage("Please provide a description of vehicle."),
-
-        // Image is required
-        body("inv_image")
+            .escape()
             .notEmpty()
-            .withMessage("Please provide a picture."),
-
-        // // Thumbnail is required
-        body("inv_thumbnail")
-            .notEmpty()
-            .withMessage("Please provide a thumbnail image."),
-
-        // Must include a price
-        body("inv_price")
-            .isNumeric()
-            .withMessage("Please provide a price."),
-
-        // Must include Mileage
-        body("inv_miles")
-            .trim()
-            .isNumeric()
-            .withMessage("Please include the mileage."),
-
-        // Must include a color
-        body("inv_color")
-            .trim()
-            .isLength({ min: 3 })
-            .withMessage("Please provide a color."),
-
+            .isLength({ min:1 })
+            .isAlphanumeric()
+            .withMessage("Please provide a valid classification name."), // on error, this message is sent.
     ]
-}
+};
 
-/* *********************************
-* Check Inventory Data
-* ******************************** */
-validate.checkInventoryData = async (req, res, next) => {
-    const { 
-        inv_make, 
-        inv_model, 
-        inv_year,
-        inv_description,
-        inv_image,
-        inv_thumbnail,
-        inv_price,
-        inv_miles,
-        inv_color
-
-    } = req.body
-
+ /* ******************************
+ * Check data and return errors or continue to add classification
+ * ***************************** */
+validate.checkClassificationData = async (req, res, next) => {
+    const { classification_name } = req.body
     let errors = []
     errors = validationResult(req)
     if (!errors.isEmpty()) {
         let nav = await utilities.getNav()
-        res.render("inventory/addInventory", {
+        res.render("inventory/add-classification", {
             errors,
-            title: "Vehicle Management",
+            title: "Add Classification",
             nav,
-            inv_make, 
-            inv_model, 
-            inv_year,
-            inv_description,
-            inv_image,
-            inv_thumbnail,
-            inv_price,
-            inv_miles,
-            inv_color
+            classification_name,
         })
         return
     }
     next()
 }
 
-/* *********************************
-* Check Update Invenotory Data
-* ******************************** */
-validate.checkUpdateInventoryData = async (req, res, next) => {
-    const { 
-        inv_make, 
-        inv_model, 
-        inv_year,
-        inv_description,
-        inv_image,
-        inv_thumbnail,
-        inv_price,
-        inv_miles,
-        inv_color,
-        inv_id
+/*  **********************************
+*  Inventory Data Validation Rules
+* ********************************* */
+validate.inventoryRules = () => {
+    return [
+        body("inv_make")
+            .trim()
+            .escape()
+            .notEmpty()
+            .isLength({ min:3 })
+            .withMessage("Please provide a valid make."), //on error, this message is sent
 
-    } = req.body
+        body("inv_model")
+            .trim()
+            .escape()
+            .notEmpty()
+            .isLength({ min:3 })
+            .withMessage("Please provide a valid model."),
 
+        body("inv_year")
+            .trim()
+            .escape()
+            .notEmpty()
+            .isNumeric()
+            .isLength(4)
+            .withMessage("Please provide a valid 4 digit Year."),
+
+        body("inv_description")
+            .trim()
+            .escape()
+            .notEmpty()
+            .isLength({ min:1 })
+            .withMessage("Please provide a valid description."),
+
+        body("inv_image")
+            .trim()
+            .escape()
+            .notEmpty()
+            .isLength({ min:1 })
+            .withMessage("Please provide a valid image path."),
+
+        body("inv_thumbnail")
+            .trim()
+            .escape()
+            .notEmpty()
+            .isLength({ min:1 })
+            .withMessage("Please provide a valid thumbnail path."),
+
+        body("inv_price")
+            .trim()
+            .escape()
+            .notEmpty()
+            .isNumeric()
+            .withMessage("Please enter a valid number for the price."),
+
+        body("inv_miles")
+            .trim()
+            .escape()
+            .notEmpty()
+            .isNumeric()
+            .withMessage("Please provide a valid number for the mileage."),
+
+        body("inv_color")
+            .trim()
+            .escape()
+            .notEmpty()
+            .isLength({ min:1 })
+            .withMessage("Please provide a color."),
+
+        body("classification_id")
+            .trim()
+            .escape()
+            .notEmpty()
+            .isInt()
+            .isLength({ min:1 })
+            .withMessage("Please provide a make."),
+    ];
+};
+
+/*  **********************************
+  *  Check data and return errors or continue to add vehicle
+  * ********************************* */
+ validate.checkInventoryData = async (req, res, next) => {
     let errors = []
     errors = validationResult(req)
+
     if (!errors.isEmpty()) {
+        const { inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id } = req.body
+        let classifications = await utilities.buildClassificationList(classification_id)
         let nav = await utilities.getNav()
-        const invData = await invModel.getDetailsByInventoryId(inv_id)
-        const itemName = `${invData.inv_make} ${invData.inv_model}`
-        res.render("/inv/edit/", {
+
+        res.render("inventory/add-inventory", {
             errors,
-            title: "Edit" + itemName,
+            title: "Add Inventory",
             nav,
-            inv_make, 
-            inv_model, 
+            classifications,
+            inv_make,
+            inv_model,
             inv_year,
             inv_description,
             inv_image,
@@ -137,7 +142,39 @@ validate.checkUpdateInventoryData = async (req, res, next) => {
             inv_price,
             inv_miles,
             inv_color,
-            inv_id
+        })
+        return
+    }
+    next()
+}
+
+/*  **********************************
+  *  Check data and return errors or continue to update vehicle
+  * ********************************* */
+ validate.checkUpdateData = async (req, res, next) => {
+    let errors = []
+    errors = validationResult(req)
+
+    if (!errors.isEmpty()) {
+        const { inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id, inv_id } = req.body
+        let classifications = await utilities.buildClassificationList(classification_id)
+        let nav = await utilities.getNav()
+
+        res.render("inventory/edit-inventory", {
+            errors,
+            title: "Edit " + inv_make + " " + inv_model,
+            nav,
+            classifications,
+            inv_make,
+            inv_model,
+            inv_year,
+            inv_description,
+            inv_image,
+            inv_thumbnail,
+            inv_price,
+            inv_miles,
+            inv_color,
+            inv_id,
         })
         return
     }
