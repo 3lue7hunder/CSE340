@@ -50,7 +50,7 @@ async function registerAccount(req, res) {
     let hashedPassword
     try {
         // regular password and cost (salt is generated automatically)
-        hashedPassword = await bcrypt.hashSync(account_password, 10)
+        hashedPassword = await bcrypt.hash(account_password, 10)
     } catch (error) {
         req.flash("notice", 'Sorry, there was an error processing the registration.')
         res.status(500).render("account/register", {
@@ -86,7 +86,6 @@ async function registerAccount(req, res) {
         })
     }
 }
-// In accountController.js - Fix the JWT token generation
 
 /* ****************************************
  *  Process login request
