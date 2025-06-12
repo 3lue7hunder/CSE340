@@ -116,8 +116,7 @@ async function accountLogin(req, res) {
       delete accountData.account_password
       
       // FIX: Change expiresIn from 3600 * 1000 to just 3600 (seconds, not milliseconds)
-      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 })
-      
+      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 })      
       if(process.env.NODE_ENV === 'development') {
         res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
       } else {
@@ -223,7 +222,7 @@ async function updatePassword(req, res) {
     let hashedPassword
     try {
         // regular password and cost (salt is generated automatically)
-        hashedPassword = await bcrypt.hashSync(account_password, 10)
+        hashedPassword = await bcrypt.hash(account_password, 10)
     } catch (error) {
         req.flash("notice", 'Sorry, there was an error updating your password.')
         res.status(500).render("account/update", {
