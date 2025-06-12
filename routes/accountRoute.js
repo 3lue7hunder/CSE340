@@ -9,13 +9,13 @@ router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.b
 
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 router.get("/registration", utilities.handleErrors(accountController.buildRegister));
+
+// Fixed: Removed duplicate /register route
 router.post("/register", 
     regValidate.registrationRules(),
     regValidate.checkRegData,
     utilities.handleErrors(accountController.registerAccount)
 );
-
-router.post('/register', utilities.handleErrors(accountController.registerAccount));
 
 router.post(
     "/login",
