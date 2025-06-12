@@ -93,42 +93,39 @@ async function registerAccount(req, res) {
 async function accountLogin(req, res) {
   let nav = await utilities.getNav()
   const { account_email, account_password } = req.body
-  console.log("Login attempt for:", account_email)
-
+  
   try {
     const accountData = await accountModel.getAccountByEmail(account_email)
-    console.log("Account data retrieved:", accountData)
-
+    
     if (!accountData) {
-      console.log("Account not found")
       req.flash("notice", "Please check your credentials and try again.")
-      return res.status(400).render("account/login", {
+      res.status(400).render("account/login", {
         title: "Login",
         nav,
         errors: null,
         account_email,
       })
+      return
     }
-
+    
+    // Check if password comparison succeeds
     const passwordMatch = await bcrypt.compare(account_password, accountData.account_password)
-    console.log("Password match result:", passwordMatch)
-
+    
     if (passwordMatch) {
       delete accountData.account_password
-      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 })
-      console.log("JWT created:", accessToken)
-
-      res.cookie("jwt", accessToken, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV !== "development",
-        maxAge: 3600 * 1000,
-      })
-      console.log("Login successful")
+      
+      // FIX: Change expiresIn from 3600 * 1000 to just 3600 (seconds, not milliseconds)
+      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 })      
+      if(process.env.NODE_ENV === 'development') {
+        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+      } else {
+        res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+      }
+      
       return res.redirect("/account/")
     } else {
-      console.log("Password does not match")
       req.flash("notice", "Please check your credentials and try again.")
-      return res.status(400).render("account/login", {
+      res.status(400).render("account/login", {
         title: "Login",
         nav,
         errors: null,
@@ -138,7 +135,7 @@ async function accountLogin(req, res) {
   } catch (error) {
     console.error("Login error:", error)
     req.flash("notice", "An error occurred during login. Please try again.")
-    return res.status(500).render("account/login", {
+    res.status(500).render("account/login", {
       title: "Login",
       nav,
       errors: null,
@@ -146,8 +143,6 @@ async function accountLogin(req, res) {
     })
   }
 }
-
-
 
 /* ****************************************
  *  Process logout request
