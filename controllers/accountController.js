@@ -93,15 +93,14 @@ async function registerAccount(req, res) {
 async function accountLogin(req, res) {
   let nav = await utilities.getNav()
   const { account_email, account_password } = req.body
-
-  console.log("LOGIN ATTEMPT");
-  console.log("Email entered:", account_email);
+  console.log("Login attempt for:", account_email)
 
   try {
     const accountData = await accountModel.getAccountByEmail(account_email)
-    
+    console.log("Account data retrieved:", accountData)
+
     if (!accountData) {
-      console.log("No account found with that email.");
+      console.log("Account not found")
       req.flash("notice", "Please check your credentials and try again.")
       return res.status(400).render("account/login", {
         title: "Login",
@@ -111,29 +110,23 @@ async function accountLogin(req, res) {
       })
     }
 
-    console.log("Account found:", accountData);
-
     const passwordMatch = await bcrypt.compare(account_password, accountData.account_password)
-
-    console.log("Password match result:", passwordMatch);
+    console.log("Password match result:", passwordMatch)
 
     if (passwordMatch) {
       delete accountData.account_password
-
       const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 })
+      console.log("JWT created:", accessToken)
 
-      console.log("JWT created:", accessToken);
-
-      if (process.env.NODE_ENV === 'development') {
-        res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
-      } else {
-        res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
-      }
-
-      console.log("Login successful. Redirecting to /account/");
+      res.cookie("jwt", accessToken, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+        maxAge: 3600 * 1000,
+      })
+      console.log("Login successful")
       return res.redirect("/account/")
     } else {
-      console.log("Password incorrect.");
+      console.log("Password does not match")
       req.flash("notice", "Please check your credentials and try again.")
       return res.status(400).render("account/login", {
         title: "Login",
@@ -153,6 +146,7 @@ async function accountLogin(req, res) {
     })
   }
 }
+
 
 
 /* ****************************************
