@@ -54,34 +54,22 @@ const validate = {}
  }
 
  /*  **********************************
-  *  Login Data Validation Rules
+  *  Login Data Validation Rules - FIXED
   * ********************************* */
  validate.loginRules = () => {
     return [
+        // Only validate email format, not existence (existence check happens in controller)
         body("account_email")
         .trim()
         .isEmail()
         .normalizeEmail()
-        .withMessage("A valid email is required.")
-        .custom(async (account_email) => {
-            const emailExists = await accountModel.checkExistingEmail(account_email)
-            if (!emailExists){
-                throw new Error("No account registered with this email")
-            }
-        }),
+        .withMessage("A valid email is required."),
 
-        // pwd required and must be strong
+        // Only validate that password is provided, not strength (existing users may have different requirements)
         body("account_password")
         .trim()
         .notEmpty()
-        .isStrongPassword({
-            minLength: 12,
-            minLowercase: 1,
-            minUppercase: 1,
-            minNumbers: 1,
-            minSymbols: 1,
-        })
-        .withMessage("Password doesn't meet requirements"),
+        .withMessage("Password is required."),
     ]
  }
 
