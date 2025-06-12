@@ -1,19 +1,39 @@
-<h1><%- title %></h1>
-<%- messages() %>
+<!--Content Heading Block-->
+<% if (title) { %>
+    <h1>
+        <%= title %>
+    </h1>
+<% } else { res.redirect('/') } %>
+
+<!--Message Block-->
+<%- messages() %> <!-- the (#) disables the code while the (-) or unescaped indicator will display it-->
+
 <% if (errors) { %>
-        <ul class="notice">
-            <% errors.array().forEach(error => { %>
-                <li><%= error.msg %></li>
+    <ul class="notice">
+        <% errors.array().forEach(error=> { %>
+            <li>
+                <%= error.msg %>
+            </li>
             <% }) %>
-        </ul>
-    <% } %>  
-<form id="loginForm" action="/account/login" method="post">
-    <div id="inner-form">
-        <label>Email<input type="email" name="account_email" required></label>
-        <label>Password<span id="login-info"><br>Must be at least 12 characters and contain at least one number, 1 capital letter, and 1 special character</span><input type="password" name="account_password" id="pword" required minlength="12" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?.*[^a-zA-Z0-9])(?!.*\s).{12,}$"></label>
-        <div class="form-button">
-            <input type="submit" Value="LOGIN">
-        </div>
-        <p>No account? <span><a href="/account/registration">Sign-up</a></span></p>
-    </div>
-</form>
+    </ul>
+<% }%>
+
+<!-- Login form -->
+ <fieldset>
+    <form id="loginForm" action="/account/login" method="post">
+        <label for="account_email"><b>Email</b><br></label>
+        <input type="email" placeholder="Enter a valid email address" name="account_email" required
+            value="<%= locals.account_email %>">
+        
+        <label for="account_password"><b>Password</b><br></label>
+        <span><i>** Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special
+                character **</i></span>
+        <input type="password" placeholder="Enter Password" name="account_password" required
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.* ).{12,}">
+        
+        <button type="submit">LOGIN</button>
+    </form>
+    
+    <p>Don't have an account? <a href="/account/register">Register here</a></p>
+
+ </fieldset>
