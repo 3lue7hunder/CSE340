@@ -1,9 +1,12 @@
+<!-- Heading Block -->
 <% if (title) { %>
-<h1><%= title %></h1>
-<% } else {
-    res.redirect('/')
-} %>
+    <h1>
+        <%= title %>
+    </h1>
+<% } else { res.redirect('/')} %>
 
+<!-- Message block -->
 <%# messages() %>
 
+<!-- Grid block -->
 <%- grid %>

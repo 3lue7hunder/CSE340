@@ -1,5 +1,15 @@
-<div class="error-page">
-    <h1><%- title %></h1>
-    <p><%- message %></p>
-    <img src="/images/site/404.webp" alt="error image" loading="lazy">
-</div>
+<% if (title) { 
+    %>
+    <h1>
+        <%= title %>
+    </h1>
+    <p>
+        <%= message %>
+    </p>
+    <%
+} else { 
+    res.redirect('/') 
+} %>
+
+// <!-- Message block -->
+<%# messages() %>
