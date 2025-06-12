@@ -86,6 +86,8 @@ async function registerAccount(req, res) {
         })
     }
 }
+// In accountController.js - Fix the JWT token generation
+
 /* ****************************************
  *  Process login request
  * ************************************ */
@@ -112,7 +114,9 @@ async function accountLogin(req, res) {
     
     if (passwordMatch) {
       delete accountData.account_password
-      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 * 1000 })
+      
+      // FIX: Change expiresIn from 3600 * 1000 to just 3600 (seconds, not milliseconds)
+      const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 })
       
       if(process.env.NODE_ENV === 'development') {
         res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
@@ -122,7 +126,6 @@ async function accountLogin(req, res) {
       
       return res.redirect("/account/")
     } else {
-      // Fixed flash message - removed "message" prefix
       req.flash("notice", "Please check your credentials and try again.")
       res.status(400).render("account/login", {
         title: "Login",
