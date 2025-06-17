@@ -54,22 +54,34 @@ const validate = {}
  }
 
  /*  **********************************
-  *  Login Data Validation Rules - FIXED
+  *  Login Data Validation Rules
   * ********************************* */
  validate.loginRules = () => {
     return [
-        // Only validate email format, not existence (existence check happens in controller)
         body("account_email")
         .trim()
         .isEmail()
         .normalizeEmail()
-        .withMessage("A valid email is required."),
+        .withMessage("A valid email is required.")
+        .custom(async (account_email) => {
+            const emailExists = await accountModel.checkExistingEmail(account_email)
+            if (!emailExists){
+                throw new Error("No account registered with this email")
+            }
+        }),
 
-        // Only validate that password is provided, not strength (existing users may have different requirements)
+        // pwd required and must be strong
         body("account_password")
         .trim()
         .notEmpty()
-        .withMessage("Password is required."),
+        .isStrongPassword({
+            minLength: 12,
+            minLowercase: 1,
+            minUppercase: 1,
+            minNumbers: 1,
+            minSymbols: 1,
+        })
+        .withMessage("Password doesn't meet requirements"),
     ]
  }
 
@@ -216,5 +228,51 @@ validate.checkUpdatePasswordData = async (req, res, next) => {
     }
     next()
 }
+
+
+// Week 6 stuff
+validate.checkManageRegData = async (req, res, next) => {
+    const { account_firstname, account_lastname, account_email, account_type } = req.body
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        let nav = await utilities.getNav()
+        res.render("account/add-user", {
+            errors,
+            title: "Add User",
+            nav,
+            account_firstname,
+            account_lastname,
+            account_email,
+            account_type,
+        })
+        return
+    }
+    next()
+}
+
+ /* ******************************
+ * Check data and return errors or continue to update
+ * ***************************** */
+validate.checkUpdateDataManage =  async (req, res, next) => {
+    const { account_id, account_firstname, account_lastname, account_email } = req.body
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        let nav = await utilities.getNav()
+        res.render("account/edit-user", {
+            errors,
+            title: "Edit" + account_firstname + " " + account_lastname,
+            nav,
+            account_id,
+            account_firstname,
+            account_lastname,
+            account_email,
+        })
+        return
+    }
+    next()
+}
+
 
 module.exports = validate

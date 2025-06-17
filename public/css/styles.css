@@ -406,6 +406,14 @@ input[type=submit]:hover:disabled {
   padding-top: 15px;
   font-family: var(--paragraph-font);
 }
+.management-div #add-user-manage {
+  font-size: 18px;
+  font-family: var(--paragraph-font);
+}
+.manager-add-user {
+  margin-left: 10px;
+  margin-right: 10px;
+}
 
 @media screen and (min-width: 600px) {
   #outer {

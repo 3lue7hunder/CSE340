@@ -13,12 +13,21 @@
         <h2>Welcome <%- locals.accountData.account_firstname %>!</h2>
         <a href="/account/update/<%- locals.accountData.account_id %>">Update Account Information</a>
     </div>
-<% } else if(locals.accountData.account_type == "Employee" || locals.accountData.account_type == "Admin") { %>
+<% } else if(locals.accountData.account_type == "Employee") { %>
     <div class="management">
         <h2>Welcome <%- locals.accountData.account_firstname %>!</h2>
         <a href="/account/update/<%- locals.accountData.account_id %>">Update Account Information</a>
         <h3>Inventory Management</h3>
         <a href="/inv/">Manage Inventory</a>
+    </div>
+<% } else if(locals.accountData.account_type == "Admin") {%>
+    <div class="management">
+        <h2>Welcome <%- locals.accountData.account_firstname %>!</h2>
+        <a href="/account/update/<%- locals.accountData.account_id %>">Update Account Information</a>
+        <h3>Inventory Management</h3>
+        <a href="/inv/">Manage Inventory</a>
+        <h3>User Management</h3>
+        <a href="/account/management/">Manage User Accounts</a>
     </div>
 <% } %>
 
